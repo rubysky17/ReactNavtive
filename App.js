@@ -19,7 +19,7 @@ const App = () => {
 
   return (
     <View style={styles.screen}>
-      <Header title="Đoán số" />
+      <Header title="Đoán số abc" />
 
       {content}
     </View>

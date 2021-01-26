@@ -1,27 +1,103 @@
-import React from "react";
-import { View, Text, StyleSheet, TextInput, Button } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Button,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert,
+} from "react-native";
 import Card from "../card/Card";
 import Colors from "../../constants/colors";
+import NumberContainer from "../number-container/NumberContainer";
 
-const StartGameScreen = () => {
+const StartGameScreen = ({ onStartGame }) => {
+  const [enteredValue, setEnteredValue] = useState("");
+  const [confirmed, setConfirmed] = useState(false);
+  const [selectedNumber, setSelectedNumber] = useState("");
+  let confirmText;
+
+  if (confirmed) {
+    if (selectedNumber) {
+      confirmText = (
+        <Card style={styles.summaryContainer}>
+          <Text>Số bạn chọn là</Text>
+          <NumberContainer>{selectedNumber}</NumberContainer>
+          <Button title="Bắt đầu" onPress={() => onStartGame(selectedNumber)} />
+        </Card>
+      );
+    }
+  }
+
+  const numberInputHandler = (inputText) => {
+    setEnteredValue(inputText.replace(/[^0-9]/g, ""));
+  };
+
+  const resetNumberHandler = () => {
+    setEnteredValue("");
+    setConfirmed(false);
+  };
+
+  const confirmNumberHandler = () => {
+    const chosenNumber = parseInt(enteredValue);
+    if (chosenNumber === NaN || chosenNumber <= 0 || chosenNumber > 99) {
+      Alert.alert("Số không hợp lệ", "Số phải từ 1 đến 99", [
+        { text: "OK", style: "destructive", onPress: resetNumberHandler },
+      ]);
+      return;
+    }
+    setConfirmed(true);
+    setEnteredValue("");
+    setSelectedNumber(parseInt(enteredValue));
+    Keyboard.dismiss();
+  };
+
   return (
-    <View style={styles.screen}>
-      <Text style={styles.title}>This is start game</Text>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+    >
+      <View style={styles.screen}>
+        <Text style={styles.title}>Trò chơi bắt đầu</Text>
 
-      <Card style={styles.inputContainer}>
-        <Text>Select a Number</Text>
-        <TextInput placeholder="input here" />
+        <Card style={styles.inputContainer}>
+          <Text>Chọn một con số</Text>
+          <TextInput
+            placeholder="Nhập số"
+            style={styles.input}
+            blurOnSubmit
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="number-pad"
+            maxLength={2}
+            onChangeText={numberInputHandler}
+            value={enteredValue}
+          />
 
-        <View style={styles.buttonContainer}>
-          <View style={styles.button}>
-            <Button title="Reset" onPress={() => {}} color={Colors.primary} />
+          <View style={styles.buttonContainer}>
+            <View style={styles.button}>
+              <Button
+                title="Đặt lại"
+                onPress={resetNumberHandler}
+                color={Colors.primary}
+              />
+            </View>
+            <View style={styles.button}>
+              <Button
+                title="Xác nhận"
+                onPress={confirmNumberHandler}
+                color={Colors.accent}
+              />
+            </View>
           </View>
-          <View style={styles.button}>
-            <Button title="Confirm" onPress={() => {}} color={Colors.accent} />
-          </View>
-        </View>
-      </Card>
-    </View>
+        </Card>
+
+        {confirmText}
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -61,6 +137,16 @@ const styles = StyleSheet.create({
 
   button: {
     width: 100,
+  },
+
+  input: {
+    borderBottomWidth: 1,
+    marginVertical: 20,
+  },
+
+  summaryContainer: {
+    marginTop: 20,
+    alignItems: "center",
   },
 });
 

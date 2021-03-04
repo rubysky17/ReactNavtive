@@ -28,10 +28,6 @@ const App = () => {
     setNumberCount(number);
   };
 
-  const handleListNumber = (list) => {
-    setListNumberRandom(list);
-  };
-
   let content = <StartGameScreen onStartGame={handleGameStart} />;
 
   if (!isOver && numberUser) {

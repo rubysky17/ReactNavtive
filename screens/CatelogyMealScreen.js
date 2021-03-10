@@ -13,7 +13,11 @@ const CatelogyMealScreen = ({ navigation }) => {
     return (
       <MealItem
         title={itemData.item.title}
-        onSelectedMeal={() => {}}
+        onSelectedMeal={() => {
+          navigation.navigate("MealDetail", {
+            mealId: itemData.item.id,
+          });
+        }}
         {...itemData.item}
       />
     );

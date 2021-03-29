@@ -1,22 +1,19 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import React from 'react';
+import { Platform } from 'react-native';
+import { HeaderButton } from 'react-navigation-header-buttons';
+import { Ionicons } from '@expo/vector-icons';
 
-const HeaderButton = () => {
+import Colors from '../constants/Colors';
+
+const CustomHeaderButton = props => {
   return (
-    // <TouchableNativeFeedback>
-    //   <Icon.Button
-    //     name="facebook"
-    //     backgroundColor="#3b5998"
-    //     onPress={this.loginWithFacebook}
-    //   >
-    //     Login with Facebook
-    //   </Icon.Button>
-    // </TouchableNativeFeedback>
-    <View></View>
+    <HeaderButton
+      {...props}
+      IconComponent={Ionicons}
+      iconSize={23}
+      color={Platform.OS === 'android' ? 'white' : Colors.primaryColor}
+    />
   );
 };
 
-export default HeaderButton;
-
-const styles = StyleSheet.create({});
+export default CustomHeaderButton;

@@ -1,34 +1,53 @@
-import React from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
-import { MEALS } from "../data/";
-// import HeaderButton from "../components/HeaderButton";
-import { AntDesign } from "@expo/vector-icons";
+import React from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-const MealDetailScreen = ({ navigation }) => {
-  const mealId = navigation.getParam("mealId");
-  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+import { MEALS } from '../data/dummy-data';
+import HeaderButton from '../components/HeaderButton';
+
+const MealDetailScreen = props => {
+  const mealId = props.navigation.getParam('mealId');
+
+  const selectedMeal = MEALS.find(meal => meal.id === mealId);
 
   return (
-    <View>
-      <Text>MealDetailScreen</Text>
+    <View style={styles.screen}>
+      <Text>{selectedMeal.title}</Text>
+      <Button
+        title="Go Back to Categories"
+        onPress={() => {
+          props.navigation.popToTop();
+        }}
+      />
     </View>
   );
 };
 
-export default MealDetailScreen;
-
-MealDetailScreen.navigationOptions = (data) => {
-  const mealId = data.navigation.getParam("mealId");
-  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
-
+MealDetailScreen.navigationOptions = navigationData => {
+  const mealId = navigationData.navigation.getParam('mealId');
+  const selectedMeal = MEALS.find(meal => meal.id === mealId);
   return {
     headerTitle: selectedMeal.title,
-    headerRight: () => (
-      <View>
-        <AntDesign name="star" size={24} color="black" />
-      </View>
-    ),
+    headerRight: (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Favorite"
+          iconName="ios-star"
+          onPress={() => {
+            console.log('Mark as favorite!');
+          }}
+        />
+      </HeaderButtons>
+    )
   };
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+});
+
+export default MealDetailScreen;

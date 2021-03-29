@@ -1,6 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, TouchableNativeFeedback, View } from "react-native";
-import { Icon } from "react-native-elements";
+import { StyleSheet, Text, View } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
 const HeaderButton = () => {
   return (
@@ -13,6 +13,7 @@ const HeaderButton = () => {
     //     Login with Facebook
     //   </Icon.Button>
     // </TouchableNativeFeedback>
+    <View></View>
   );
 };
 

@@ -1,8 +1,8 @@
 import React from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { MEALS } from "../data/";
-import { Ionicons } from "@expo/vector-icons";
-import HeaderButton from "../components/HeaderButton";
+// import HeaderButton from "../components/HeaderButton";
+import { AntDesign } from "@expo/vector-icons";
 
 const MealDetailScreen = ({ navigation }) => {
   const mealId = navigation.getParam("mealId");
@@ -23,7 +23,11 @@ MealDetailScreen.navigationOptions = (data) => {
 
   return {
     headerTitle: selectedMeal.title,
-    headerRight: () => <HeaderButton />,
+    headerRight: () => (
+      <View>
+        <AntDesign name="star" size={24} color="black" />
+      </View>
+    ),
   };
 };
 
